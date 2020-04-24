@@ -3,7 +3,7 @@ const config = require("../configs/config");
 // mongodb cloud db 
 mongoose.connect(config.DB_LINK, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).then(function (conn) {
   // console.log("Connection to mongodb established");
-  // console.log(conn)
+  // console.log(conn) 
   console.log("Plan Db connected");
 }).catch(function (err) {
   console.log(err);
