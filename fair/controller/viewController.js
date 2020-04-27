@@ -5,12 +5,33 @@ function getTestPage(req,res){
     })
 }
 
-function getPlansListing(req,res){
-    const plans = await planModel.find(); // find() se saare plans aa jayenge
-    res.render("plansListing.pug",{
-        titile : "plans page", plans
+async function getHomePage(req,res){
+    let AllPlans = await planModel.find();
+    //slice AllPlans
+    res.render("home.pug",{
+        titile: "Home Page",AllPlans
     })
 }
 
-module.exports.getTestPage = getTestPage ;
+async function getPlansListing(req,res){
+    const plans = await planModel.find(); // find() se saare plans aa jayenge & passing these plans as objects, plans:plans
+    res.render("plansListing.pug",{   // rendered planListing file and passed "plans"
+        titile : "plans page", plans:plans
+    })
+}
+
+async function getLoginPage(req,res){
+    res.render("login.pug",{
+        titile: "login"
+    })
+}
+
+async function getSignupPage(req,res){
+    res.render("signup.pug",{
+        titile: "signup"
+    })
+}
 module.exports.getPlansListing = getPlansListing ;
+module.exports.getHomePage = getHomePage ;
+module.exports.getLoginPage = getLoginPage;
+module.exports.getSignupPage = getSignupPage ;

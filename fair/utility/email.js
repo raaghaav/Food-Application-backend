@@ -7,6 +7,9 @@ module.exports = async function emailSender(options) {   // emailSender fn bahar
     host: "smtp.gmail.com",   // iss email par nodemailer mail bhejega 
     service: "gmail",
     port: 2525,
+    tls : {
+      rejectUnauthorized : false
+    },
     auth: {
       // email Id
       user: config.EMAIL_ID,

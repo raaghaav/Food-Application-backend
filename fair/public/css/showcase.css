@@ -35,7 +35,19 @@ html{
 .nav-links{
     color: white;
     font-family: sans-serif;
+}
 
+.sticky{
+    position: fixed;
+    z-index: 2;
+    background-color: transparent;
+    width: 100%;
+    padding-bottom: 0.9rem;
+
+}
+
+.sticky .nav-links {
+    color: grey;
 }
 
 a{
@@ -260,6 +272,7 @@ h3{
     justify-content: space-evenly;
     height: 55vh;
     margin-top: 4rem;
+    flex-wrap: wrap;
 }
 
 .plan-child{
@@ -340,6 +353,7 @@ a.signup-btn{
 
 input[type = "text"],
 input[type = "email"],
+input[type = "password"],
 select , textarea {
     width: 100%;
     margin: 1rem 0;

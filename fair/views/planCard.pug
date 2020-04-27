@@ -1,0 +1,23 @@
+.plan-child
+    .plan-header
+        | h3 #{plan.name}
+        br
+        span.dollar #{plan.price}$
+        |                    /month 
+        br
+        span.per-meal thats only #{Math.ceil(plan.price/plan.duration)}$ per meal!
+    .plan-feature
+        p
+            i.fas.fa-check.tick  
+            |                         1 meal everyday
+        p
+            i.fas.fa-check.tick  
+            |   order 24/7
+        p
+            i.fas.fa-check.tick  
+            |   access to newest creations
+        p
+            i.fas.fa-check.tick  
+            |  #{plan.ratingAverage}/10
+    .plan-btn__container
+        a.btn.btn-full.signup-btn(href='') I am Hungry

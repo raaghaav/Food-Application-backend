@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");      // mongoose => promise based library
 const cryto = require("crypto");
 
-// connection
 const config = require("../configs/config");
 mongoose
   .connect(config.DB_LINK, {
@@ -10,14 +9,13 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(function (db) {
-    // console.log(db);
+  
     console.log("userDB connected");
   })
   .catch(function (err) {
     console.log(err);
   });
 
-// sch
 const userSchema = new mongoose.Schema({
   name: {
     type: String,

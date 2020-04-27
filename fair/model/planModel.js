@@ -1,16 +1,13 @@
 const mongoose = require("mongoose");
-const config = require("../configs/config");
-// mongodb cloud db 
+const config = require("../configs/config"); 
 mongoose.connect(config.DB_LINK, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).then(function (conn) {
-  // console.log("Connection to mongodb established");
-  // console.log(conn) 
+ 
   console.log("Plan Db connected");
 }).catch(function (err) {
   console.log(err);
 })
 // Number string array date
 // validator => required,unique
-//  non
 const planSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -25,7 +22,7 @@ const planSchema = new mongoose.Schema({
   },
   ratingsAverage: {
     type: Number,
-    // in case of no input 
+    // if no input 
     default: 7,
     min: [1, "Plan rating can't be less than 1"],
     max: [10, "Plan rating can't be  more tha 10"]

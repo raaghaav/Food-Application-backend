@@ -1,14 +1,24 @@
 doctype html
 html
     head
-        titile #{title}
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                titile #{title}
             link(href='https://fonts.googleapis.com/css?family=Work+Sans&display=swap', rel='stylesheet', crossorigin='')
             link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css', crossorigin='')
-            link(rel='stylesheet', href='./css/showcase.css')
+            link(rel='stylesheet', href='./css/showcase.css',crossorigin='')
+            link(rel="stylesheet", href="./css/signup.css",crossorigin= '')
 
     body
-        include nav
+        block header
+            include nav
         block content
-            h1 I am a placeholder where actual content willl appear in child pages
+            h1 Placeholder
         include footer
+        script(src="https://unpkg.com/axios/dist/axios.min.js" crossorigin= "true") 
+        script(src="js/frontend.js")
+        script(src="js/script.js")
+
+        // we attach axios cdn link and below is the file where cdn has to be used, cdn link goes automatically to all the files below it => no need to require axios
+        // jitni bhi file hum base.pug main attach karenge => go to "frontend.js"
         

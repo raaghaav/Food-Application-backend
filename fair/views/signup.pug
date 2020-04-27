@@ -1,0 +1,24 @@
+extends base 
+block content
+        
+    body
+      
+        #login-box
+            .left
+                h1 Sign up
+                form
+                    input(type='text', name='username', placeholder='Username', required='')
+                    input(type='text', name='email', placeholder='E-mail', required='')
+                    input(type='password', name='password', placeholder='Password', required='')
+                    input(type='password', name='password2', placeholder='Confirm password', required='')
+                    input(type='submit', name='signup_submit', value='Sign me up')
+            .right
+                span.loginwith
+                    | Sign in with
+                    br
+                    | social network
+                button.social-signin.facebook
+                    a.Normal-login(href='./login.html') Already a Member? LogIn
+                button.social-signin.twitter Log in with Twitter
+                button.social-signin.google Log in with Google+
+            .or OR
