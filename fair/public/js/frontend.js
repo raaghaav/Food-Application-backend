@@ -66,6 +66,7 @@ async function logoutHelper() {
 // 3. take out its value whenever event occur on it 
 // 4. post request
 
+//  agar above link par click hoo toh yeh kahin jaye na; => (href= "javascript: ; ") ==> nav.pug
 
 
 

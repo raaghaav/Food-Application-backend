@@ -9,7 +9,6 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(function (db) {
-  
     console.log("userDB connected");
   })
   .catch(function (err) {
@@ -56,8 +55,6 @@ userSchema.pre("save", function () {
   this.confirmPassword = undefined;
 });
 
-
-
 userSchema.methods.createToken = function () {          // this method will be attached to every user
   const token = crypto.randomBytes(32).toString("hex");   // token generate kiya 
   this.resetToken = token   // since this points to current document  & token ko user ke andar save kar diya 
@@ -65,14 +62,12 @@ userSchema.methods.createToken = function () {          // this method will be a
   return token; // jis email se req aayi thi uss par bhej diya   
 }
 
-
 userSchema.methods.resetPasswordhelper = function (password, confirmPassword) {
   this.password = password;  // updating pass of current user 
   this.confirmPassword = confirmPassword; // updating ConfirmPass of current user  
   this.resetToken = undefined;    // now after updating we don't require resetToken 
   this.expiresIn = undefined;     // // now after updating we don't require expiresIn 
 }
-
 
 const userModel = mongoose.model("NewUserModel", userSchema);
 

@@ -27,7 +27,7 @@ async function login(req, res) {
           expiresIn: Date.now() + 1000 * 60 * 30   // date.now => present + 30 min == token gets expired in 30 min from generation
         })
         res.cookie("jwt",token, {httpOnly : true}); // cookies headers main set ho gayi & sent as res.cookie & it'll verify my token 
-
+          // token cookie ke andar jata hai not json => res.cookie ke andar jwt bhej sakte hai => res.cookie("tokenName",token_value,extraParameters)
         res.status(200).json({
           status: "successfull",
           user,
@@ -48,12 +48,12 @@ async function login(req, res) {
 }
 
 async function logout (req,res){
-  res.cookie("jwt","jhvhjcbkhchu", {httpOnly:true});
+  res.cookie("jwt","wrongtokenxyz", {httpOnly:true});  // when i'm clicking on "logout" => backend P yeh invalid token chala jata hai which doesn't matches => logout happens => /login page 
   res.status((200).json({status:"user LoggedOut "}))
 }
 
-// authenticate => user
-async function protectRoute(req, res, next) {     // client ko verify karega 
+
+async function protectRoute(req, res, next) {     // client ko verify karega, authenticate => user
   try {
     let token
     if (req.headers && req.headers.authorization) {// (CASE FOR POSTMAN-FOR TESTERS)  "authorization" key req.headers main hoti hai, => req.headers main authorization key se token nikal rahe hai 
@@ -85,7 +85,7 @@ async function protectRoute(req, res, next) {     // client ko verify karega
       if(clientType.includes("Mozilla")==true){
         return res.redirect("/login"); // return ends the startement here only (USING EXPRESS)
       }else{
-        res.status(500).json({
+        res.status(200).json({
           status: "unsuccessfull",
           err: err.message ,
         })
@@ -104,7 +104,7 @@ async function isUserLoggedIn(req, res, next) {  //  1. token verify   2. if(tok
       if (payload) {
         const user = await userModel.findById(payload.id);
         req.role = user.role;
-        req.id = payload.id
+        req.id = payload.id // user id jo mongo providde kar raha hai 
         req.userName = user.name
         next();
       } else {
@@ -170,7 +170,8 @@ async function forgetPassword(req, res) {
       await user.save({ validateBeforeSave: false });  // validateBeforeSave- prevents validators to execute OR no validation will work
       // email 
       const resetPasswordLink = `http://localhost:3000/api/users/resetPassword/${token}`   // iss route par req. lagaenge
-
+      
+      // these options goes to email.js file  
       const emailOptions = {}; // apne options banane padenge mail bhejne ke liye
       emailOptions.html = `<h1>Please click on the link to reset your password </h1>
       <p>${resetPasswordLink}</p>` ;
@@ -193,6 +194,7 @@ async function forgetPassword(req, res) {
     })
   }
 }
+
 async function resetPassword(req, res) {
   try {
     const token = req.params.token; // req.params main token aaya in form of link => usse const token main daal diya  
@@ -218,9 +220,6 @@ async function resetPassword(req, res) {
       err
     })
   }
-  // resetPassword/svmbamvbd
-  // db => svmbamvbd=> user search => user
-  // user => password
 }
 
 module.exports.signup = signup;

@@ -1,3 +1,4 @@
+// give the views by rendering the html page 
 const planModel = require("../model/planModel");
 const userModel = require("../model/userModel");
 
@@ -9,7 +10,6 @@ async function getHomePage(req, res) {
     title: "Home Page", plans, name: name
   })
 }
-// 
 async function getPlansPage(req, res) {
   // planModel =>get  plans 
   let plans = await planModel.find();
