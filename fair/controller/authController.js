@@ -17,16 +17,17 @@ async function signup(req, res) {
 
 async function login(req, res) {
   try {
-    const { email, password } = req.body;
-    const user = await userModel.findOne({ email }).select("+password"); // login ke liye pass jaruri hota hai therefore used select 
-    // console.log(user);
+    const { email, password } = req.body;   //req ki body main email,pass bheja 
+    const user = await userModel.findOne({ email }).select("+password"); // login ke liye pass. jaruri hota hai therefore used select 
     if (user) {
       if (password == user.password) {
         // jwt
-        const { _id } = user;   // users main se _id nikal rahe hai "_id" user ki id hai jo predefined hai 
-        const token = jwt.sign({ id: _id }, JWT_SECRET, {  // giving "_id" as payload to jwt [.sign => is signature establishing from payload deafault also and secret key ]
+        const { _id } = user;   // users main se "_id" nikal rahe hai "_id" user ki id hai jo predefined hoti hai 
+        const token = jwt.sign({ id: _id }, JWT_SECRET, {  // giving "_id" as payload to jwt [.sign is signature establishing from payload which is deafault and secret key ]
           expiresIn: Date.now() + 1000 * 60 * 30   // date.now => present + 30 min == token gets expired in 30 min from generation
         })
+        res.cookie("jwt",token, {httpOnly : true}); // cookies headers main set ho gayi & sent as res.cookie & it'll verify my token 
+
         res.status(200).json({
           status: "successfull",
           user,
@@ -45,14 +46,25 @@ async function login(req, res) {
     })
   }
 }
+
+async function logout (req,res){
+  res.cookie("jwt","jhvhjcbkhchu", {httpOnly:true});
+  res.status((200).json({status:"user LoggedOut "}))
+}
+
 // authenticate => user
 async function protectRoute(req, res, next) {     // client ko verify karega 
   try {
-    // headers 
-    if (req.headers && req.headers.authorization) {     //  "authorization" key req.headers main hoti hai, => req.headers main authorization key se token nikal rahe hai 
-      const token = req.headers.authorization.split(" ").pop();  // token req.headers.authrization main aa jayega from bearer token
+    let token
+    if (req.headers && req.headers.authorization) {// (CASE FOR POSTMAN-FOR TESTERS)  "authorization" key req.headers main hoti hai, => req.headers main authorization key se token nikal rahe hai 
+       token = req.headers.authorization.split(" ").pop();  // token req.headers.authrization main aa jayega from bearer token
       // console.log(token)
-
+  }else if(req.cookies && req.cookies.jwt){ //(CASE FOR WEB)
+    token = req.cookies.jwt;
+  } else {
+    throw new Error("Please provide a token");
+  }
+  // console.log(req.get("User-Agent"));
       if (token) {
         const decryptedData = jwt.verify(token, JWT_SECRET);
         if (decryptedData) { // decryptedData is true when user jwt is verified (decryptedData  matlab verify karna  )
@@ -67,16 +79,43 @@ async function protectRoute(req, res, next) {     // client ko verify karega
       } else {
         throw new Error("Please login again to access this route ");
       }
-    } else {
-      throw new Error("Please provide a token");
-    }
+    }catch (err) {
+    console.log(err);
+      let clientType = req.get("User-Agent");
+      if(clientType.includes("Mozilla")==true){
+        return res.redirect("/login"); // return ends the startement here only (USING EXPRESS)
+      }else{
+        res.status(500).json({
+          status: "unsuccessfull",
+          err: err.message ,
+        })
+      }
+  }
+}
 
+async function isUserLoggedIn(req, res, next) {  //  1. token verify   2. if(token) then req.userName add kar dega 
+  try {
+    let token;
+    if (req.cookies.jwt) {    // this came from login 
+      token = req.cookies.jwt
+    }
+    if (token) {
+      const payload = jwt.verify(token, secrets.JWT_SECRET);
+      if (payload) {
+        const user = await userModel.findById(payload.id);
+        req.role = user.role;
+        req.id = payload.id
+        req.userName = user.name
+        next();
+      } else {
+        next();
+      }
+    } else {
+      next();   // if token hai => next() call karunga + add users name & token nahi hai tab bhi next() call karunga 
+    }
   } catch (err) {
     // console.log(err);
-    res.status(400).json({
-      status: "unsuccessfull",
-      err
-    })
+    next();
   }
 }
 // authorization
@@ -183,6 +222,7 @@ async function resetPassword(req, res) {
   // db => svmbamvbd=> user search => user
   // user => password
 }
+
 module.exports.signup = signup;
 module.exports.login = login;
 module.exports.protectRoute = protectRoute;
@@ -190,14 +230,9 @@ module.exports.isAdmin = isAdmin;
 module.exports.isAuthorized = isAuthorized;
 module.exports.forgetPassword = forgetPassword;
 module.exports.resetPassword = resetPassword;
+module.exports.isUserLoggedIn = isUserLoggedIn ;
+module.exports.logout = logout ;
 
 
-
-// login
-// user verify
-// protect Route 
-// authorization
-
-//forgetPassword
-//resetPassword
-//updatepassword
+// In protectRoute fn, token is verified => token ke basis par id de dega and if token is not authenticate user is denied the permissions 
+// In isUserLoggedIn fn cookie is verified if verified => userName is displayed and loggedin else normally all other pages are displayed 

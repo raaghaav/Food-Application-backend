@@ -7,8 +7,14 @@ nav.sticky(style="position:realtive")
         li.nav-li
             a.nav-links(href='#') Reviews
         li.nav-li
-            a.nav-links(href='#') Plans
-        li.nav-li
-            a.nav-links(href='#') SignUp
-        li.nav-li
-            a.nav-links(href='#') LogIn
+            a.nav-links(href='/plans') Plans
+            
+        if name 
+                    li.nav-li
+                        a.nav-links(href="/profile") #{name}
+                    li.nav-li
+                        a.nav-links(href="javascript:;").logout Logout
+                       //  agar above link par click hoo toh yeh kahin jaye na; => (href= "javascript: ; ")
+        else
+                    li.nav-li
+                        a.nav-links(href='/login') LogIn

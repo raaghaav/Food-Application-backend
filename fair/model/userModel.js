@@ -60,10 +60,8 @@ userSchema.pre("save", function () {
 
 userSchema.methods.createToken = function () {          // this method will be attached to every user
   const token = crypto.randomBytes(32).toString("hex");   // token generate kiya 
-  // user
   this.resetToken = token   // since this points to current document  & token ko user ke andar save kar diya 
   this.expiresIn = Date.now() + 10 * 1000 * 60;
-  // 
   return token; // jis email se req aayi thi uss par bhej diya   
 }
 

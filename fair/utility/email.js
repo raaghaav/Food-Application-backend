@@ -7,14 +7,10 @@ module.exports = async function emailSender(options) {   // emailSender fn bahar
     host: "smtp.gmail.com",   // iss email par nodemailer mail bhejega 
     service: "gmail",
     port: 2525,
-    tls : {
-      rejectUnauthorized : false
-    },
+    secure: false,
     auth: {
-      // email Id
-      user: config.EMAIL_ID,
-      // app password
-      pass: config.EMAIL_PASSWORD
+      user: config.EMAIL_ID, // email Id jisse mail bhejoge
+      pass: config.EMAIL_PASSWORD // app password
     }
   });
   //2. parameters

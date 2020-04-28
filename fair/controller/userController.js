@@ -73,7 +73,7 @@ async function removeUser(req,res){
   }
 }
 
-async function createUser(req,res){
+async function updateUser(req,res){
   try{
     const {userId} = req.params;
     const tobeUpdatedData = req.body;

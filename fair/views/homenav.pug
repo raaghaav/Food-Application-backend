@@ -1,3 +1,4 @@
+// homenav contains header(background) + navbar 
 header
     .showcase
         nav.sticky(style="position:realtive")
@@ -10,6 +11,16 @@ header
                     a.nav-links(href='#') Reviews
                 li.nav-li
                     a.nav-links(href='#') Plans
+
+                if name 
+                    li.nav-li
+                        a.nav-links(href="/profile") #{name}
+                    li.nav-li
+                        a.nav-links(href="#").logout logout
+                else
+                    li.nav-li
+                        a.nav-links(href='/login') LogIn
+
                 li.nav-li
                     a.nav-links(href='#') SignUp
                 li.nav-li

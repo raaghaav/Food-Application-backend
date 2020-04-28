@@ -20,7 +20,6 @@ function typewriter(spandetector,client){
             txt = word.substring(0,txt.length+1); // suppose "Everyone" main 0 se 1, i.e E (first case)
         } ;
 
-
         spandetector.textContent = txt; 
         const largePause = 2000;
 
@@ -34,16 +33,13 @@ function typewriter(spandetector,client){
             isDeleting =true ;
             wait = largePause ;
         }
-
-
+            
         setTimeout(function(){
             typer();
         },wait);
     };
 
-
     typer();
-
 }
 
 const nav = document.querySelector("nav");

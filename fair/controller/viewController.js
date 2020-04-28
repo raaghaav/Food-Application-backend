@@ -1,37 +1,39 @@
-let planModel = require("../model/planModel");
-function getTestPage(req,res){
-    res.render("test.pug",{   // instead of res.json
-        titile: "Test Page"
-    })
+const planModel = require("../model/planModel");
+const userModel = require("../model/userModel");
+
+
+async function getHomePage(req, res) {
+  let plans = await planModel.find().limit(3);
+  let name = req.userName;
+  res.render("home.pug", {
+    title: "Home Page", plans, name: name
+  })
+}
+// 
+async function getPlansPage(req, res) {
+  // planModel =>get  plans 
+  let plans = await planModel.find();
+  let name = req.userName;
+  res.render("plansPage.pug", {
+    title: "Plans Page", plans, name
+  })
+}
+function getLoginPage(req, res) {
+  let name = req.userName;
+  res.render("login.pug", {
+    title: "Login", name
+  })
+}
+async function getProfilePage(req, res) {
+  const user = await userModel.findById(req.id); // protectRoute next wale fn  "req.id" main bhejta hai aage
+  const name = req.userName;
+  res.render("profile.pug", {
+    title: "Profile Page",
+    user, name
+  })
 }
 
-async function getHomePage(req,res){
-    let AllPlans = await planModel.find();
-    //slice AllPlans
-    res.render("home.pug",{
-        titile: "Home Page",AllPlans
-    })
-}
-
-async function getPlansListing(req,res){
-    const plans = await planModel.find(); // find() se saare plans aa jayenge & passing these plans as objects, plans:plans
-    res.render("plansListing.pug",{   // rendered planListing file and passed "plans"
-        titile : "plans page", plans:plans
-    })
-}
-
-async function getLoginPage(req,res){
-    res.render("login.pug",{
-        titile: "login"
-    })
-}
-
-async function getSignupPage(req,res){
-    res.render("signup.pug",{
-        titile: "signup"
-    })
-}
-module.exports.getPlansListing = getPlansListing ;
-module.exports.getHomePage = getHomePage ;
+module.exports.getHomePage = getHomePage;
+module.exports.getPlansPage = getPlansPage;
 module.exports.getLoginPage = getLoginPage;
-module.exports.getSignupPage = getSignupPage ;
+module.exports.getProfilePage = getProfilePage;
