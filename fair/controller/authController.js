@@ -42,14 +42,16 @@ async function login(req, res) {
   } catch (err) {
     console.log(err);
     res.json({
-      err
+      err: err.message
     })
   }
 }
 
-async function logout (req,res){
-  res.cookie("jwt","wrongtokenxyz", {httpOnly:true});  // when i'm clicking on "logout" => backend P yeh invalid token chala jata hai which doesn't matches => logout happens => /login page 
-  res.status((200).json({status:"user LoggedOut "}))
+async function logout(req, res) {
+  res.cookie("jwt", "bgfdgcgf", { expires: new Date(Date.now() + 100) });
+  res.json({
+    status: "logged Out"
+  })
 }
 
 
@@ -97,10 +99,11 @@ async function isUserLoggedIn(req, res, next) {  //  1. token verify   2. if(tok
   try {
     let token;
     if (req.cookies.jwt) {    // this came from login 
-      token = req.cookies.jwt
+      token = req.cookies.jwt;
+      //console.log(token);
     }
     if (token) {
-      const payload = jwt.verify(token, secrets.JWT_SECRET);
+      const payload = jwt.verify(token, JWT_SECRET );
       if (payload) {
         const user = await userModel.findById(payload.id);
         req.role = user.role;
@@ -114,7 +117,7 @@ async function isUserLoggedIn(req, res, next) {  //  1. token verify   2. if(tok
       next();   // if token hai => next() call karunga + add users name & token nahi hai tab bhi next() call karunga 
     }
   } catch (err) {
-    // console.log(err);
+    console.log(err);
     next();
   }
 }

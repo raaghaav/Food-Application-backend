@@ -11,7 +11,6 @@ planRouter
   .route("/:planId")
   .get(getPlan)
   .patch(updatePlan)
-  // admin
   .delete(protectRoute, isAuthorized(["admin"]),
     removePlan);
 
