@@ -1,7 +1,8 @@
 //  email,password ,request backend=> reply
 let d = document;  
-let login = d.querySelector(".login");    
+let login = d.querySelector(".login");    // form.login ko select karega in login.pug 
 let logout = d.querySelector(".logout");
+let signup = d.querySelector(".signup");
 
 async function loginHelper(email, password) {
   const response = await axios.post("/api/users/login", {
@@ -16,23 +17,23 @@ async function loginHelper(email, password) {
   }
 }
 
-// async function signupHelper(email, password, confirmPassword, name) {
-//   const response = await axios.post("/api/users/signup", {    // object main daal do email,pass etc
-//     email, password, confirmPassword, name
-//   });
-//   console.log(response.data);
-// }
+async function signupHelper(email, password, confirmPassword, name) {
+  const response = await axios.post("/api/users/signup", {    // object main daal do email,pass etc
+    email, password, confirmPassword, name
+  });
+  console.log(response.data);
+}
 
-// if (signupForm) {
-//   signupForm.addEventListener("submit", function (e) {
-//     e.preventDefault();     // stops reloading of page 
-//     const email = d.querySelector(".email").value;
-//     const password = d.querySelector(".password").value
-//     const confirmPassword = d.querySelector(".confirmPassword").value;
-//     const name = d.querySelector(".name").value;
-//     signupHelper(email, password, confirmPassword, name); // i/p lega values aur aage proceed kar dega 
-//   })
-// }
+if (signup) {
+  signup.addEventListener("click", function (e) {
+    e.preventDefault();     // stops reloading of page 
+    const email = d.querySelector(".email").value;
+    const password = d.querySelector(".password").value
+    const confirmPassword = d.querySelector(".confirmPassword").value;
+    const name = d.querySelector(".name").value;
+    signupHelper(email, password, confirmPassword, name); // i/p lega values aur aage proceed kar dega 
+  })
+}
 
 // when y are logged in there'll be no login button so we cannot add eventlistener on null, => if loginBtn will be present then only add event listener
 if (login) { 

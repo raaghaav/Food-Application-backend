@@ -20,7 +20,7 @@ body {
 
 }
 
-#login-box {
+.signup-box {
   position: relative;
   margin: 5% auto;
   width: 600px;

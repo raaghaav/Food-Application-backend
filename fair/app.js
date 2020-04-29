@@ -11,7 +11,6 @@ app.use(express.static("public"));  // this enables to send all the static files
 app.use(cookieParser()); // reads & logs the cookies
 
 app.set("view engine", "pug");  // templating engine 
-
 app.set("views","views");   // templating address 
 
 app.use("/", viewRouter);

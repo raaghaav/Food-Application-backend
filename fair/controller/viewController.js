@@ -7,7 +7,7 @@ async function getHomePage(req, res) {
   let plans = await planModel.find().limit(3);
   let name = req.userName;
   res.render("home.pug", {
-    title: "Home Page", plans, name: name
+     plans, name: name
   })
 }
 async function getPlansPage(req, res) {
@@ -18,22 +18,37 @@ async function getPlansPage(req, res) {
     title: "Plans Page", plans, name
   })
 }
+
 function getLoginPage(req, res) {
   let name = req.userName;
   res.render("login.pug", {
-    title: "Login", name
+     name
   })
 }
+
 async function getProfilePage(req, res) {
   const user = await userModel.findById(req.id); // protectRoute next wale fn  "req.id" main bhejta hai aage
   const name = req.userName;
   res.render("profile.pug", {
-    title: "Profile Page",
     user, name
   })
 }
 
+async function getSignupPage(req,res){
+  let name = req.userName;
+  res.render("signup.pug",{
+     name
+  })
+}
+
+async function getForgetPasswordPage(req,res){
+  res.render("forgetPassword.pug",{
+    title : "forgetPassword page"
+  })
+}
 module.exports.getHomePage = getHomePage;
 module.exports.getPlansPage = getPlansPage;
 module.exports.getLoginPage = getLoginPage;
 module.exports.getProfilePage = getProfilePage;
+module.exports.getSignupPage = getSignupPage ;
+module.exports.getForgetPasswordPage = getForgetPasswordPage ;
