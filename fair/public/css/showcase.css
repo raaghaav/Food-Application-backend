@@ -5,6 +5,7 @@
     text-transform: uppercase;
 }
 
+
 html{
     font-size: 1rem;
     color: gray;
@@ -222,7 +223,7 @@ h3{
 
 .reviews{
     background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.9)), url(../imgs/showcase_bg.jpg);
-    height: 65vh;
+    height: 70vh;
     background-size: cover;
     background-position: inherit;
 }
@@ -241,6 +242,7 @@ h3{
     width: 28%;
     background-color: white;
     transition: 0.4s;
+    margin-top: 0.5rem;
 }
 
 .reviews-child:hover{
@@ -367,6 +369,7 @@ select , textarea {
     height: 4rem;
     margin-left: 15rem;
     margin-top: 2rem;
+    font-size: 0.8rem;
 }
 
 .footer{
@@ -382,6 +385,7 @@ select , textarea {
 
 h5{
     margin-left: 1rem;
+    color: white;
 }
 .f_icon{
     font-size: 1.5rem;
@@ -392,5 +396,4 @@ h5{
 
 .copywrite{
     display: inline-flex;
-    margin-left: 124px;
 }

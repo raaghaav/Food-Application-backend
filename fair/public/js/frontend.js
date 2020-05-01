@@ -3,6 +3,31 @@ let d = document;
 let login = d.querySelector(".login");    // form.login ko select karega in login.pug 
 let logout = d.querySelector(".logout");
 let signup = d.querySelector(".signup");
+let fPassword = d.querySelector(".forgetPassword");
+
+
+async function forgetPasswordHelper(email) {
+  var str = email;
+  var email = str.toLowerCase();
+  console.log(email)
+  const response = await axios.patch("/api/users/forgetPassword", { "email":email },{ headers : {
+    'Content-Type': 'application/json'
+}}
+);
+  if(response.data.status){
+    alert("Check Gmail");
+  }else {
+    alert("You don't exist");
+  }
+}
+
+if (fPassword) {
+  fPassword.addEventListener("submit", function (e) {
+    e.preventDefault();
+     let email = d.querySelector(".email").value;
+    forgetPasswordHelper(email);
+  })  
+}
 
 async function loginHelper(email, password) {
   const response = await axios.post("/api/users/login", {
@@ -22,15 +47,21 @@ async function signupHelper(email, password, confirmPassword, name) {
     email, password, confirmPassword, name
   });
   console.log(response.data);
+  if (response.data.status == "user signed up"){
+    alert("signup successful")
+    location.assign("/profile");
+  }else{
+    alert("Try again");
+  }
 }
 
 if (signup) {
   signup.addEventListener("click", function (e) {
     e.preventDefault();     // stops reloading of page 
+    const name = d.querySelector(".name").value;
     const email = d.querySelector(".email").value;
     const password = d.querySelector(".password").value
     const confirmPassword = d.querySelector(".confirmPassword").value;
-    const name = d.querySelector(".name").value;
     signupHelper(email, password, confirmPassword, name); // i/p lega values aur aage proceed kar dega 
   })
 }

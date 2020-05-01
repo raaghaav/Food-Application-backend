@@ -4,20 +4,20 @@ block header
 block content
     section.features
         h2 Awesome Features
-    .container-parent
-        .container
+    .container-parent(style="margin-top:-8rem; height:85vh")
+        .container(style="height: 56vh;")
             i.far.fa-calendar-alt.icon
             h3.fature-heading 365 days/year
             p.feature-para
                 | Never cook again! We really mean that. Our subscription plans include up to 365 days/year coverage. You can
                 | also choose to order more flexibly if that's your style.
-        .container
+        .container(style="height: 56vh;")
             i.fas.fa-truck.icon
             h3.fature-heading 30 minutes or free
             p.feature-para
                 | You're only twenty minutes away from your delicious and super healthy meals delivered right to your home. We
                 | work with the best chefs in each town to ensure that you're 100% happy.
-        .container
+        .container(style="height: 56vh;")
             i.fas.fa-leaf.icon
             h3.fature-heading 100% orgainic
             p.feature-para
@@ -76,12 +76,12 @@ block content
         .signup-container
             video.bg-video__content(autoplay='', muted='', loop='')
                 source(src='./imgs/Avocado.mp4', type='video/mp4')
-            form.signup-form(action='/signup', method='POST')
+            form.signup-form(action='/signup', method='POST', style="color:white;")
                 .form-entry
-                    label(for='name') name:
+                    label(for='name') name :
                     input#name(type='text', placeholder='name', required='')
                 .form-entry
-                    label(for='email') Email:
+                    label(for='email') Email :
                     input(type='email', placeholder='email', required='')
                 .form-entry
                     label(for='find-us') how did you find us
@@ -95,7 +95,7 @@ block content
                     textarea#comment(name='comment', cols='30', rows='10')
                 .form-entry
                     input(type='checkbox', name='', id='', required='')
-                    span i agree to the terms and conditions
+                    span  i agree to the terms and conditions
                 .form-entry
                     button.btn.btn-full.btn_form send message
 

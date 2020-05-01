@@ -6,12 +6,21 @@ const { JWT_SECRET } = require("../configs/config");  // {} particular key nikal
 async function signup(req, res) {
   try {
     const user = await userModel.create(req.body);
+    // // exp
+    // const emailOptions = {};
+    // emailOptions.html = `<h1>Welcome New User </h1> `;
+    // emailOptions.to = email;
+    // emailOptions.from = "customersupport@everyone.com";
+    // emailOptions.subject = "Welcome" ;
+    // await Email(emailOptions); 
+
+
     res.status(201).json({
       status: "user signed up",
       user
     })
   } catch (err) {
-    res.status(400).json({ err })
+    res.status(400).json({ err:err.message })
   }
 }
 
@@ -67,7 +76,7 @@ async function protectRoute(req, res, next) {     // client ko verify karega, au
     throw new Error("Please provide a token");
   }
   // console.log(req.get("User-Agent"));
-      if (token) {
+      if (token) {  // agar token Postman OR Web main se kahin se bhi aa gaya toh - 
         const decryptedData = jwt.verify(token, JWT_SECRET);
         if (decryptedData) { // decryptedData is true when user jwt is verified (decryptedData  matlab verify karna  )
           const id = decryptedData.id; // we sent _id to token in login fn so we take out that _id 
@@ -108,7 +117,7 @@ async function isUserLoggedIn(req, res, next) {  //  1. token verify   2. if(tok
         const user = await userModel.findById(payload.id);
         req.role = user.role;
         req.id = payload.id // user id jo mongo providde kar raha hai 
-        req.userName = user.name
+        req.userName = user.name // req.userName aage viewController main pass ho jayega, we give it to var name which is printed on UI
         next();
       } else {
         next();
@@ -185,7 +194,7 @@ async function forgetPassword(req, res) {
 
       res.status(200).json({
         resetPasswordLink,   //  sending this resetPasswordLink in response
-        status: `Email send to ${email}`
+        status: `Check Gmail ${email}`
       })
     } else {
       throw new Error("You does not exist");
@@ -193,7 +202,7 @@ async function forgetPassword(req, res) {
   } catch (err) {
     console.log(err);
     res.status(400).json({
-      err
+      err:err.message
     })
   }
 }
@@ -222,6 +231,22 @@ async function resetPassword(req, res) {
     res.status(400).json({
       err
     })
+  }
+}
+
+async function resetPasswordHelper(req, res) {
+  try {
+    let token = req.params.token; // token req.params main aayega
+    let user = await userModel.findOne({
+resetToken: token})
+    if (user) {
+      req.token = token;
+      return next()
+    } else {
+      throw new Error(" Invalid URL ");
+    }
+  }catch(err){
+    console.log(err);
   }
 }
 

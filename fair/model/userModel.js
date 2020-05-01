@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");      // mongoose => promise based library
-const cryto = require("crypto");
+const crypto = require("crypto");
 
 const config = require("../configs/config");
 mongoose

@@ -43,7 +43,6 @@ async function getSignupPage(req,res){
 
 async function getForgetPasswordPage(req,res){
   res.render("forgetPassword.pug",{
-    title : "forgetPassword page"
   })
 }
 module.exports.getHomePage = getHomePage;

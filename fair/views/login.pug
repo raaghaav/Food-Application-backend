@@ -1,11 +1,11 @@
 extends base
 block content
-    section.login
-        h2 login
+    section(style="height:90vh;").login
+        h2(style="margin-top:-3rem;") login
         .signup-container
-            video.bg-video__content(autoplay='', muted='', loop='')
+            video.bg-video__content(autoplay='', muted='', loop='',style="margin-top:0.4rem;")
                 source(src='./imgs/Avocado.mp4', type='video/mp4')
-            form.login
+            form.login(style="margin-right:8rem;")
                 
                 .form-entry
                     label(for='email') Email:
@@ -13,13 +13,11 @@ block content
 
                 .form-entry
                     label(for='password') Password:
-                    input(type='password', placeholder='*************', required='')
+                    input(type='password', placeholder='***********', required='')
 
-                .form-entry
+                .form-entry(style="font-size:1.3rem; margin-bottom: 1rem !important;")
                    button(type="submit").btn.btn-full.form-button LOGIN
-                
-                .form-entry
                    a.btn.btn-full.form-button(href="/signup") Signup 
 
                 .form-entry
-                   a.btn.btn-full.form-button(href="/forgetPassword") Forget Password
+                   a(href='/forgetPassword') Forget Password

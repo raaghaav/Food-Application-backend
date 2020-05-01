@@ -13,7 +13,7 @@ userRouter.patch("/forgetPassword", forgetPassword)
 userRouter.patch("/resetPassword/:tokeplan", resetPassword);
 
 
-userRouter.use(protectRoute, isAuthorized(["admin"])); //  isAuthorized role check karega & role user main hoga, "id" ko identify karke wo role nikal kar de dega 
+//userRouter.use(protectRoute, isAuthorized(["admin"])); //  isAuthorized role check karega & role user main hoga, "id" ko identify karke wo role nikal kar de dega 
 userRouter.route("")
   .get(getAllUsers)
   .post(createUser)
