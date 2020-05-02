@@ -243,7 +243,7 @@ resetToken: token})
       req.token = token;
       return next()
     } else {
-      throw new Error(" Invalid URL ");
+      throw new Error(" Invalid URL hai aapka ");
     }
   }catch(err){
     console.log(err);
