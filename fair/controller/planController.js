@@ -39,7 +39,8 @@ async function createPlan(req, res) {
       res.status(201).json({ status: "New Plan Created", plan });
     }
     catch (err) {
-      res.status(400).json({ err });
+      res.status(404).json({ err:err.message })
+      console.log(err)
     }
   }
 

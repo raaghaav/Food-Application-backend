@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
 const config = require("../configs/config"); 
 mongoose.connect(config.DB_LINK, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).then(function (conn) {
- 
   console.log("Plan Db connected");
 }).catch(function (err) {
   console.log(err);
 })
-// Number string array date
-// validator => required,unique
+
 const planSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -22,8 +20,7 @@ const planSchema = new mongoose.Schema({
   },
   ratingsAverage: {
     type: Number,
-    // if no input 
-    default: 7,
+    default: 7,  // if no input 
     min: [1, "Plan rating can't be less than 1"],
     max: [10, "Plan rating can't be  more tha 10"]
   },
@@ -42,7 +39,6 @@ const planSchema = new mongoose.Schema({
       },
       message: "discount must be less than price"
     }
-
   }
 })
 const planModel = mongoose.model("janplanmodel", planSchema);

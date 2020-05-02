@@ -163,10 +163,10 @@ function isAuthorized(roles) {     //  isAuthorized main saare roles aa rahe hai
     } catch (err) {
       console.log(err);
       res.status(403).json(
-        { err }
+        { err:err.message }
       )
     }
-  };
+  }
 }
 
 async function forgetPassword(req, res) {

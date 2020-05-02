@@ -4,6 +4,7 @@ let login = d.querySelector(".login");    // form.login ko select karega in logi
 let logout = d.querySelector(".logout");
 let signup = d.querySelector(".signup");
 let fPassword = d.querySelector(".forgetPassword");
+let plan = d.querySelector(".plan");  
 
 
 async function forgetPasswordHelper(email) {
@@ -82,6 +83,12 @@ if (logout) { // jab bhi logout fn par click hoga => logoutHelper() fn call ho j
   })
 }
 
+if(plan){
+  plans.addEventListener("click",function(){
+    plansHelper();
+  })
+}
+
 async function logoutHelper() {
   const backendResponse = await axios.get("/api/users/logout"); // logout => "click" event => "/logout" par req jaa rahi hai => await kar liya usko 
   if (backendResponse.data.status == "logged Out") {  
@@ -90,6 +97,15 @@ async function logoutHelper() {
     location.assign("/");  // if backendResponse.data.status main loggedout aata hai toh => reload ho jayega => "/login" par chala jayega 
   } else {
     alert("logout failed");
+  }
+}
+
+async function plansHelper(){
+  const plansResponse = await axios.get("/api/plans/getAllPlans");
+  if(plansResponse.status.data=="successfull"){
+    location.assign("/plans");
+  }else{
+    alert("cannot fetch plans")
   }
 }
 
