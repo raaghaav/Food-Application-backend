@@ -1,11 +1,23 @@
 //  email,password ,request backend=> reply
 let d = document;  
+//var stripe = Stripe('pk_test_lxMil4ZnmRSIqXFo9iAtSBEk00TsoHvh0s');
+let paymentBtn = d.querySelector(".payment");
 let login = d.querySelector(".login");    // form.login ko select karega in login.pug 
 let logout = d.querySelector(".logout");
 let signup = d.querySelector(".signup");
 let fPassword = d.querySelector(".forgetPassword");
 let plan = d.querySelector(".plan");  
+let updateProfile = d.querySelector(".updateProfile");
+let resetPasswordForm = document.querySelector(".resetPassword")
 
+
+if (fPassword) {
+  fPassword.addEventListener("submit", function (e) {
+    e.preventDefault();
+     let email = d.querySelector(".email").value;
+    forgetPasswordHelper(email);
+  })  
+}
 
 async function forgetPasswordHelper(email) {
   var str = email;
@@ -22,12 +34,14 @@ async function forgetPasswordHelper(email) {
   }
 }
 
-if (fPassword) {
-  fPassword.addEventListener("submit", function (e) {
+// when y are logged in there'll be no login button so we cannot add eventlistener on null, => if loginBtn will be present then only add event listener
+if (login) { 
+  login.addEventListener("submit", function (e) {   // 1. click 
     e.preventDefault();
-     let email = d.querySelector(".email").value;
-    forgetPasswordHelper(email);
-  })  
+    let email = d.querySelector("input[type=email]").value;   // 2. form ke andar email ki value & password ki val ko nikali 
+    let password = d.querySelector("input[type=password]").value;
+    loginHelper(email, password)   //3. backend par req maar di 
+  })
 }
 
 async function loginHelper(email, password) {
@@ -43,6 +57,17 @@ async function loginHelper(email, password) {
   }
 }
 
+if (signup) {
+  signup.addEventListener("click", function (e) {
+    e.preventDefault();     // stops reloading of page 
+    const name = d.querySelector(".name").value;
+    const email = d.querySelector(".email").value;
+    const password = d.querySelector(".password").value
+    const confirmPassword = d.querySelector(".confirmPassword").value;
+    signupHelper(email, password, confirmPassword, name); // i/p lega values aur aage proceed kar dega 
+  })
+}
+
 async function signupHelper(email, password, confirmPassword, name) {
   const response = await axios.post("/api/users/signup", {    // object main daal do email,pass etc
     email, password, confirmPassword, name
@@ -56,36 +81,9 @@ async function signupHelper(email, password, confirmPassword, name) {
   }
 }
 
-if (signup) {
-  signup.addEventListener("click", function (e) {
-    e.preventDefault();     // stops reloading of page 
-    const name = d.querySelector(".name").value;
-    const email = d.querySelector(".email").value;
-    const password = d.querySelector(".password").value
-    const confirmPassword = d.querySelector(".confirmPassword").value;
-    signupHelper(email, password, confirmPassword, name); // i/p lega values aur aage proceed kar dega 
-  })
-}
-
-// when y are logged in there'll be no login button so we cannot add eventlistener on null, => if loginBtn will be present then only add event listener
-if (login) { 
-  login.addEventListener("submit", function (e) {   // 1. click 
-    e.preventDefault();
-    let email = d.querySelector("input[type=email]").value;   // 2. form ke andar email ki value & password ki val ko nikali 
-    let password = d.querySelector("input[type=password]").value;
-    loginHelper(email, password)   //3. backend par req maar di 
-  })
-}
-
 if (logout) { // jab bhi logout fn par click hoga => logoutHelper() fn call ho jayega 
   logout.addEventListener("click", function () {
     logoutHelper();
-  })
-}
-
-if(plan){
-  plans.addEventListener("click",function(){
-    plansHelper();
   })
 }
 
@@ -100,6 +98,12 @@ async function logoutHelper() {
   }
 }
 
+if(plan){
+  plans.addEventListener("click",function(){
+    plansHelper();
+  })
+}
+
 async function plansHelper(){
   const plansResponse = await axios.get("/api/plans/getAllPlans");
   if(plansResponse.status.data=="successfull"){
@@ -108,6 +112,74 @@ async function plansHelper(){
     alert("cannot fetch plans")
   }
 }
+
+if (updateProfile) {
+  updateProfile.addEventListener("change", function (e) {
+    e.preventDefault();
+    const formData = new FormData();   // multipart data send  format 
+    formData.append("user", updateProfile.files[0]); // "user" bhejunga  & updateProfile ki files ke andar hoti hai images
+    updateProfileHelper(formData);
+  })
+}
+
+async function updateProfileHelper(formData) {
+  let response = await axios.patch("/api/users/updateProfile", formData);
+  if (response.data.success) {
+    alert("profile Image uploaded")
+    location.reload();
+  }else{
+    alert("something went wrong");
+  }
+}
+
+if (resetPasswordForm) {
+  resetPasswordForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    let password = d.querySelector(".password").value;
+    let confirmPassword = d.querySelector(".confirmPassword").value;
+    const token = resetPasswordForm.getAttribute("data-token");
+    // alert(password)
+    // alert(confirmPassword)
+    // alert(token)
+    handleResetRequest(password, confirmPassword, token);
+  })
+}
+
+async function handleResetRequest(password, confirmPassword, resetToken) {
+  const response = await axios.patch(`/api/users/resetPassword/${resetToken}`,
+    {password, confirmPassword})
+  if (response.data.status == "user password updated login with new password") {
+    alert("Your password has been reset");
+    location.assign("/login");
+  } else {
+    alert("something wnet wrong")
+  }
+}
+
+if (paymentBtn) {
+  paymentBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    const planId = paymentBtn.getAttribute("plan-id");
+    payementHelper(planId);
+  })
+}
+
+async function payementHelper(planId) {
+  const response = await axios.post("/api/bookings/createSession", { planId });
+  if (response.data.status) {
+    const { session } = response.data; // we know session key aayi hui hai so fetched session 
+    const id = session.id; // id generated by session
+    stripe.redirectToCheckout({
+      sessionId: id
+    }).then(function (result) {
+      alert(result.error.message);
+    });
+  } else {
+    alert("Payment failed");
+  }
+}
+//  image backend 
+
 
 
 // 1. select karunga element ko

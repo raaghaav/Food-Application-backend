@@ -1,6 +1,6 @@
 const express = require("express")
-const 
 planRouter = express.Router();
+
 const { getAllPlans, getPlan, removePlan, createPlan, updatePlan } = require("../controller/planController")
 const { protectRoute, isAuthorized } = require("../controller/authController")
 planRouter
@@ -16,5 +16,5 @@ planRouter
 
 module.exports = planRouter;
 
-// As server start => route fns like get,post  pehle hi chal jayenge but 
 // server => request => getplan, removplan etc   jo actual fns hai in controllers they execute when req comes
+// As server start => route fns like get,post  pehle hi chal jayenge but 

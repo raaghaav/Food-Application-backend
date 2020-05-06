@@ -39,7 +39,7 @@ async function login(req, res) {
           // token cookie ke andar jata hai not json => res.cookie ke andar jwt bhej sakte hai => res.cookie("tokenName",token_value,extraParameters)
         res.status(200).json({
           status: "successfull",
-          user,
+         // user,
           token   // yeh token yahan se aage client ko bhej diya 
         })
       } else {
@@ -181,7 +181,7 @@ async function forgetPassword(req, res) {
       // db => save  // db main save karna hai therefore await and .save  
       await user.save({ validateBeforeSave: false });  // validateBeforeSave- prevents validators to execute OR no validation will work
       // email 
-      const resetPasswordLink = `http://localhost:3000/api/users/resetPassword/${token}`   // iss route par req. lagaenge
+      const resetPasswordLink = `http://localhost:3000/resetPassword/${token}`   // iss route par req. lagaenge resetPass ke liye
       
       // these options goes to email.js file  
       const emailOptions = {}; // apne options banane padenge mail bhejne ke liye
@@ -207,58 +207,79 @@ async function forgetPassword(req, res) {
   }
 }
 
+async function handleResetRequest(req, res, next) {
+  try {
+    const { token } = req.params; // params se aayega token 
+    console.log(token);
+    let user = await userModel.findOne({ resetToken: token });// finding on basis of token 
+
+    if (user) { // if(user) then verify token 
+      req.token = token;
+      //console.log( req.token)
+      next();
+    } else {
+      res.redirect("/somethingWentWrong");
+    }
+  } catch (err) {
+    res.redirect("/somethingWentWrong");
+  }
+}
+
+
 async function resetPassword(req, res) {
   try {
     const token = req.params.token; // req.params main token aaya in form of link => usse const token main daal diya  
     const user = await userModel.findOne({ resetToken: token });  // findOne takes input in key-value form 
     if (user) {
+      
       if (Date.now() < user.expiresIn) {
         const { password, confirmPassword } = req.body; // taking out pass & confirmPass from req.body
-        
-        user.resetPasswordhelper(password, confirmPassword);
+        user.handleResetRequest(password, confirmPassword);
         await user.save();    // db main save karna hai therefore await and .save  
         res.status(200).json({
-          success: "user password updated login with new password"
+          status: "user password updated login with new password"
         })
-      } else {
-        throw new Error("token has expired");
-      }
+      } else {throw new Error("token has expired");}
     } else {
       throw new Error("user not found");
     }
   } catch (err) {
     console.log(err);
-    res.status(400).json({
-      err
-    })
+    res.status(400).json({err:err.message })
   }
 }
 
-async function resetPasswordHelper(req, res) {
-  try {
-    let token = req.params.token; // token req.params main aayega
-    let user = await userModel.findOne({
-resetToken: token})
-    if (user) {
-      req.token = token;
-      return next()
-    } else {
-      throw new Error(" Invalid URL hai aapka ");
-    }
-  }catch(err){
-    console.log(err);
-  }
-}
+// async function resetPasswordHelper(req, res) {
+//   try {
+//     let token = req.params.token; // token req.params main aayega
+//     let user = await userModel.findOne({resetToken: token})
+//     if (user) {
+//       req.token = token;
+//       return next()
+//     } else {
+//       throw new Error(" Invalid URL hai aapka ");
+//     }
+//   }catch(err){
+//     console.log(err);
+//   }
+// }
+
+
+
 
 module.exports.signup = signup;
 module.exports.login = login;
+module.exports.logout = logout ;
 module.exports.protectRoute = protectRoute;
+module.exports.isUserLoggedIn = isUserLoggedIn ;
 module.exports.isAdmin = isAdmin;
 module.exports.isAuthorized = isAuthorized;
 module.exports.forgetPassword = forgetPassword;
 module.exports.resetPassword = resetPassword;
-module.exports.isUserLoggedIn = isUserLoggedIn ;
-module.exports.logout = logout ;
+module.exports.handleResetRequest = handleResetRequest;
+// module.exports.resetPasswordHelper = resetPasswordHelper;
+
+
 
 
 // In protectRoute fn, token is verified => token ke basis par id de dega and if token is not authenticate user is denied the permissions 

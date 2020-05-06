@@ -1,4 +1,6 @@
 const userModel = require("../model/userModel");
+const sharp = require("sharp");
+const fs = require("fs");
 
 async function getMe(req, res) {
   try {
@@ -91,11 +93,43 @@ async function updateUser(req,res){
   }
 }
 
+async function updateProfileHandler(req, res) {
+  try {
+    const id = req.id;
+    const user = await userModel.findById(id);
+   
+    let toBesavedImagePath = `public/img/users/user-${Date.now()}.jpeg`;  // process image
+    await sharp(req.file.path).toFormat("jpeg").jpeg({ quality: 60 }).toFile(toBesavedImagePath);
+   
+    let iDBLink = toBesavedImagePath.split("/").slice(1).join("/")  // public remove 
+   
+    user.profileImage = iDBLink;   // user update 
+    await user.save({
+      validateBeforeSave: false
+    })
+    //  user profile Image link update
+    // process update public folder 
+    //db link update 
+    res.status(200).json({
+      success: "Image uploaded"
+    })
+   
+    fs.promises.unlink(req.file.path);
+  } catch (err) {
+    console.log(err);
+    res.status(200).json({
+      status: "something went wrong"
+    })
+  }
+}
+
+
 module.exports.getMe = getMe;
 module.exports.createUser = createUser;
 module.exports.getAllUsers = getAllUsers;
 module.exports.getUser=getUser;
 module.exports.removeUser=removeUser;
 module.exports.updateUser=updateUser;
+module.exports.updateProfileHandler = updateProfileHandler ;
 
 // read concepts comments from PlanController.js file

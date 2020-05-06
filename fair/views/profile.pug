@@ -6,7 +6,9 @@ block content
                 p Name : #{user.name}
                 p Email : #{user.email}
                 p
+                    img(src=`${user.profileImage}`)
                     a(href="/") Settings
+                input(type="file", name="").updateProfile
                 if user.role == "admin"
                     p
                         a(href="/managePlans") Manage Plans

@@ -11,13 +11,14 @@ html
             link(rel="stylesheet", href="./css/signup.css",crossorigin= '')
             link(rel="stylesheet", href="./css/forgetPassword.css", crossorigin = '')
 
-    body((style='box-sizing: border-box;', )='')
+    body(style='height:90vh;')
         
         block header
             include nav
         block content
             h1 Placeholder
         include footer
+        script(src="https://js.stripe.com/v3/" )
         script(src="https://unpkg.com/axios/dist/axios.min.js" crossorigin= "true") 
         script(src="js/frontend.js")
         script(src="js/script.js")

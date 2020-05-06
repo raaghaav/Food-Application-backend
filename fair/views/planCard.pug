@@ -20,4 +20,7 @@
             i.fas.fa-check.tick  
             |  #{plan.ratingAverage}/10
     .plan-btn__container
-        a.btn.btn-full.signup-btn(href='') I am Hungry
+        if name
+            a.btn.btn-full.signup-btn(href='javascript:;',plan-id=`${plan["_id"]}`).payment I am Hungry
+        else 
+             a.btn.btn-full.signup-btn(href='/login') I am Hungry

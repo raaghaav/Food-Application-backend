@@ -10,6 +10,7 @@ async function getHomePage(req, res) {
      plans, name: name
   })
 }
+
 async function getPlansPage(req, res) {
   let plans = await planModel.find(); // planModel =>get  plans 
   let name = req.userName;
@@ -44,9 +45,24 @@ async function getForgetPasswordPage(req,res){
   res.render("forgetPassword.pug",{
   })
 }
+async function getResetPage(req, res) {
+  const  token = req.params.token;
+  console.log("555"+ token)
+  res.render("resetPassword.pug", { token });
+}
+
+async function getSomethingWentWrongPage(req, res) {
+  res.render("somethingWentWrong.pug");
+}
+
 module.exports.getHomePage = getHomePage;
 module.exports.getPlansPage = getPlansPage;
 module.exports.getLoginPage = getLoginPage;
 module.exports.getProfilePage = getProfilePage;
 module.exports.getSignupPage = getSignupPage ;
 module.exports.getForgetPasswordPage = getForgetPasswordPage ;
+module.exports.getResetPage = getResetPage ;
+module.exports.getSomethingWentWrongPage = getSomethingWentWrongPage ;
+
+
+
