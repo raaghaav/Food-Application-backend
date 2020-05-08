@@ -6,7 +6,7 @@
 body {
   margin: 0;
   padding: 0;
-  background: #DDD;
+  background: #ddd;
   font-size: 16px;
   color: #222;
   font-family: 'Roboto', sans-serif;
@@ -16,7 +16,6 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-
 }
 
 .signup-box {
@@ -24,7 +23,7 @@ body {
   margin: 5% auto;
   width: 600px;
   height: 400px;
-  background: #FFF;
+  background: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
@@ -45,8 +44,8 @@ h1 {
   font-size: 28px;
 }
 
-input[type="text"],
-input[type="password"] {
+input[type='text'],
+input[type='password'] {
   display: block;
   box-sizing: border-box;
   margin-bottom: 20px;
@@ -54,28 +53,28 @@ input[type="password"] {
   width: 220px;
   height: 32px;
   border: none;
-  border-bottom: 1px solid #AAA;
+  border-bottom: 1px solid #aaa;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 15px;
   transition: 0.2s ease;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
+input[type='text']:focus,
+input[type='password']:focus {
   border-bottom: 2px solid #16a085;
   color: #16a085;
   transition: 0.2s ease;
 }
 
-input[type="submit"] {
+input[type='submit'] {
   margin-top: 28px;
   width: 120px;
   height: 32px;
   background: #16a085;
   border: none;
   border-radius: 2px;
-  color: #FFF;
+  color: #fff;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
   text-transform: uppercase;
@@ -83,14 +82,14 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-input[type="submit"]:hover,
-input[type="submit"]:focus {
+input[type='submit']:hover,
+input[type='submit']:focus {
   opacity: 0.8;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   transition: 0.1s ease;
 }
 
-input[type="submit"]:active {
+input[type='submit']:active {
   opacity: 1;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   transition: 0.1s ease;
@@ -102,7 +101,7 @@ input[type="submit"]:active {
   left: 280px;
   width: 40px;
   height: 40px;
-  background: #DDD;
+  background: #ddd;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   line-height: 40px;
@@ -127,7 +126,7 @@ input[type="submit"]:active {
   display: block;
   margin-bottom: 40px;
   font-size: 28px;
-  color: #FFF;
+  color: #fff;
   text-align: center;
 }
 
@@ -137,7 +136,7 @@ button.social-signin {
   height: 36px;
   border: none;
   border-radius: 2px;
-  color: #FFF;
+  color: #fff;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
   transition: 0.2s ease;
@@ -159,13 +158,13 @@ button.social-signin.facebook {
   background: rgb(23, 25, 27);
 }
 
-.Normal-login{
+.Normal-login {
   color: white;
 }
 button.social-signin.twitter {
-  background: #55ACEE;
+  background: #55acee;
 }
 
 button.social-signin.google {
-  background: #DD4B39;
+  background: #dd4b39;
 }
