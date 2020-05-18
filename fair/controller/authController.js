@@ -1,7 +1,7 @@
+const { JWT_SECRET } = process.env.JWT_SECRET || require('../configs/config'); // {} particular key nikalne ke liye
 const userModel = require('../model/userModel');
 const Email = require('../utility/email');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../configs/config'); // {} particular key nikalne ke liye
 
 async function signup(req, res) {
   try {
@@ -39,7 +39,7 @@ async function login(req, res) {
         // token cookie ke andar jata hai not json => res.cookie ke andar jwt bhej sakte hai => res.cookie("tokenName",token_value,extraParameters)
         res.status(200).json({
           status: 'successfull',
-          // user,
+          user,
           token, // yeh token yahan se aage client ko bhej diya
         });
       } else {

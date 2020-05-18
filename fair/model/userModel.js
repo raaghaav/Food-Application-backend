@@ -1,9 +1,8 @@
 const mongoose = require('mongoose'); // mongoose => promise based library
 const crypto = require('crypto');
 
-const config = require('../configs/config');
-mongoose
-  .connect(config.DB_LINK, {
+const DB_LINK = process.env.DB_LINK || require('../configs/config').DB_LINK;mongoose
+  .connect(DB_LINK, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -49,7 +48,7 @@ const userSchema = new mongoose.Schema({
 
   profileImage: {
     type: String,
-    default: '/img/users/default.jpeg',
+    default: '/imgs/users/default.jpeg',
   },
 });
 

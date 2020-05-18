@@ -9,6 +9,7 @@ const {
   getForgetPasswordPage,
   getResetPage,
   getSomethingWentWrongPage,
+  getPlansPage
 } = require('../controller/viewController');
 const {
   isUserLoggedIn,
@@ -20,7 +21,7 @@ viewRouter.use(isUserLoggedIn); // koi bhi page from below agar render ho raha h
 //viewRouter.use(handleResetRequest);
 
 viewRouter.get('/', getHomePage);
-//viewRouter.get("/plans",getPlansListing);
+viewRouter.get("/plans",getPlansPage);
 viewRouter.get('/login', getLoginPage);
 viewRouter.get('/signup', getSignupPage);
 viewRouter.get('/profile', protectRoute, getProfilePage); // protectRoute verify karega tabhi getProfilePage par bhejega

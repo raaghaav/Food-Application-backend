@@ -3,7 +3,7 @@ const planModel = require('../model/planModel');
 const userModel = require('../model/userModel');
 
 async function getHomePage(req, res) {
-  let plans = await planModel.find().limit(3);
+  let plans = await planModel.find();
   let name = req.userName;
   res.render('home.pug', {
     plans,
@@ -14,7 +14,7 @@ async function getHomePage(req, res) {
 async function getPlansPage(req, res) {
   let plans = await planModel.find(); // planModel =>get  plans
   let name = req.userName;
-  res.render('plansPage.pug', {
+  res.render('plansListing.pug', {
     title: 'Plans Page',
     plans,
     name,

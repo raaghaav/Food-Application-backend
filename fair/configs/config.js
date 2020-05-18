@@ -4,4 +4,5 @@ module.exports = {
   JWT_SECRET: 'raghavraghav',
   EMAIL_ID: 'rgoel8690@gmail.com',
   EMAIL_PASSWORD: 'ojwvjyxpemnfvyne',
+  SK: 'sk_test_gIQ602ORNg3CEg1Ji1fma4XS000ZzRt6IZ',
 };

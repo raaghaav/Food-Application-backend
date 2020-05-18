@@ -1,10 +1,10 @@
 const express = require('express');
-planRouter = express.Router();
+const planRouter = express.Router();
 
 const {
   getAllPlans,
   getPlan,
-  removePlan,
+  deletePlan,
   createPlan,
   updatePlan,
 } = require('../controller/planController');
@@ -18,7 +18,7 @@ planRouter
   .route('/:planId')
   .get(getPlan)
   .patch(updatePlan)
-  .delete(protectRoute, isAuthorized(['admin']), removePlan);
+  .delete(protectRoute, isAuthorized(['admin']), deletePlan);
 
 module.exports = planRouter;
 

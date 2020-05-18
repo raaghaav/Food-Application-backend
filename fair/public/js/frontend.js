@@ -1,7 +1,7 @@
 //  email,password ,request backend=> reply
 let d = document;
 let stripe = Stripe('pk_test_lxMil4ZnmRSIqXFo9iAtSBEk00TsoHvh0s');
-let paymentBtn = d.querySelector('.payment');
+let paymentBtn = d.querySelectorAll('.payment');
 let login = d.querySelector('.login'); // form.login ko select karega in login.pug
 let logout = d.querySelector('.logout');
 let signup = d.querySelector('.signup');
@@ -170,11 +170,19 @@ async function handleResetRequest(password, confirmPassword, resetToken) {
 }
 
 if (paymentBtn) {
-  paymentBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    const planId = paymentBtn.getAttribute('plan-id');
-    payementHelper(planId);
-  });
+  // for (x in paymentBtn) {
+  //   console.log(paymentBtn[x])
+  //   const btn = paymentBtn[x];
+  //   btn.addEventListener('click', function (e) {
+  //     e.preventDefault();
+  //     
+  //   });
+  // }
+  $(".payment").click(function(){alert("Redirecting to payment page")
+  const planId = $(".payment").attr('plan-id');
+      payementHelper(planId);
+      
+})
 }
 
 async function payementHelper(planId) {

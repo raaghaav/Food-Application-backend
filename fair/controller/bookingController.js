@@ -1,4 +1,5 @@
-const stripe = require('stripe')('sk_test_gIQ602ORNg3CEg1Ji1fma4XS000ZzRt6IZ');
+let SK = process.env.SK || require('../configs/config').SK;
+const stripe = require('stripe')(SK);
 const planModel = require('../model/planModel');
 const userModel = require('../model/userModel');
 
@@ -28,9 +29,9 @@ async function createSession(req, res) {
           currency: 'usd',
           quantity: 1,
         },
-      ],
-      success_url: 'http://localhost:3000/profile',
-      cancel_url: 'http://localhost:3000',
+      ], // when deployed these are the updated urls
+      success_url: `${req.protocol}://${req.get('host')}/profile`,
+      cancel_url: `${req.protocol}://${req.get('host')}/profile`,
     });
     res.status(200).json({
       status: 'success',
